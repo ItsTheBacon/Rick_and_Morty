@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.rickandmorty.base.BaseFragment;
 import com.example.rickandmorty.databinding.FragmentLocationDetailBinding;
-import com.example.rickandmorty.models.location.Location;
 import com.example.rickandmorty.ui.fragments.character.detail.CharterDetailFragmentArgs;
 import com.example.rickandmorty.ui.fragments.location.LocationViewModel;
 
@@ -23,7 +21,6 @@ public class LocationDetailFragment extends BaseFragment<FragmentLocationDetailB
                              Bundle savedInstanceState) {
         viewModel =
                 new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
-
         binding = FragmentLocationDetailBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
@@ -37,15 +34,10 @@ public class LocationDetailFragment extends BaseFragment<FragmentLocationDetailB
     @Override
     protected void setUpObserves() {
         super.setUpObserves();
-        viewModel.fetchId(id).observe(getViewLifecycleOwner(), new Observer<Location>() {
-            @Override
-            public void onChanged(Location location) {
-                binding.itemName.setText(location.getName());
-                binding.itemAirDate.setText(location.getType());
-
-                binding.itemEpisode.setText(location.getDimension());
-
-            }
+        viewModel.fetchId(id).observe(getViewLifecycleOwner(), location -> {
+            binding.itemName.setText(location.getName());
+            binding.itemAirDate.setText(location.getType());
+            binding.itemEpisode.setText(location.getDimension());
         });
     }
 

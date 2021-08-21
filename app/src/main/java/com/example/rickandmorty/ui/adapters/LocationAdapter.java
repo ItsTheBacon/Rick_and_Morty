@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.adapters.charteradapter;
+package com.example.rickandmorty.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,28 +7,29 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.example.rickandmorty.databinding.LocationItemBinding;
+import com.example.rickandmorty.models.location.Location;
 import com.example.rickandmorty.utils.OnItemClickListener;
-import com.example.rickandmorty.databinding.CharterItemBinding;
-import com.example.rickandmorty.models.charter.Character;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
-    ArrayList<Character> list = new ArrayList<>();
+public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
+    ArrayList<Location> list = new ArrayList<>();
+
+    LocationItemBinding binding;
     OnItemClickListener onItemClickListener;
-    CharterItemBinding binding;
 
     public void setItemClickList(OnItemClickListener onclickListener) {
         this.onItemClickListener = onclickListener;
     }
+
     @NonNull
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        binding = CharterItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        binding = LocationItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding.getRoot());
     }
 
@@ -42,7 +43,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
         return list.size();
     }
 
-    public void addlist(ArrayList<Character> list) {
+    public void addlist(ArrayList<Location> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -50,21 +51,16 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
+
         }
 
-        public void onBind(Character item) {
-            binding.itemTitle.setText(item.getName());
-            binding.itemStatus.setText(item.getStatus());
-            binding.itemSpecies.setText(item.getSpecies());
-            Glide.with(binding.itemImage)
-                    .load(item.getImage())
-                    .into(binding.itemImage);
+        public void onBind(Location item) {
+            binding.itemName.setText(item.getName());
+            binding.itemPlanet.setText(item.getType());
+            binding.itemDimension.setText(item.getDimension());
             itemView.setOnClickListener(v ->
                     onItemClickListener.OnClickListener(item.getId()));
-            itemView.setOnLongClickListener(v -> {
-                onItemClickListener.OnLongListener(item.getId());
-                return false;
-            });
+
         }
     }
 }

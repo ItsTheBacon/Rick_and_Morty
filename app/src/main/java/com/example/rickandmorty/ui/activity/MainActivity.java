@@ -21,15 +21,15 @@ public class MainActivity extends AppCompatActivity {
         setUpNavigation();
     }
     public void setUpNavigation(){
-
-        NavHostFragment navHostFragment =       (NavHostFragment)getSupportFragmentManager()
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragmentContainerView);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration
-                .Builder(R.id.charterFragment,
-                R.id.episodsFragment,R.id.locationFragment)
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.charterFragment,
+                R.id.episodsFragment,
+                R.id.locationFragment)
                 .build();
-        NavigationUI.setupWithNavController(binding.bottomNavigation,
-                navHostFragment.getNavController());
+        NavigationUI.setupActionBarWithNavController(this, navHostFragment.getNavController(), appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navHostFragment.getNavController());
 
     }
 }

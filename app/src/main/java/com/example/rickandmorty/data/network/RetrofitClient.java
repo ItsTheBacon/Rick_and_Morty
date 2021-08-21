@@ -28,6 +28,7 @@ public class RetrofitClient {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+    
     public CharterApiService provideChacterApiService(){
         return provideRetrofit.create(CharterApiService.class);
     }

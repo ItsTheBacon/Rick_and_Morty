@@ -20,7 +20,7 @@ public class RickAndMoryResponse<T>{
     }
 
     public ArrayList<T> getResults() {
-        return results;
+        return (ArrayList<T>) results;
     }
 
     public void setResults(ArrayList<T> results) {

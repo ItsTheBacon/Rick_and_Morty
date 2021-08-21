@@ -1,7 +1,7 @@
 package com.example.rickandmorty.data.apiservice;
 
-import com.example.rickandmorty.models.charter.Character;
 import com.example.rickandmorty.models.RickAndMoryResponse;
+import com.example.rickandmorty.models.charter.Character;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

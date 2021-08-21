@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.adapters.episodsadapter;
+package com.example.rickandmorty.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

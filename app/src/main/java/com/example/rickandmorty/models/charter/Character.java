@@ -1,14 +1,24 @@
 package com.example.rickandmorty.models.charter;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Character {
+
+    @PrimaryKey(autoGenerate = true)
+
     @SerializedName("id")
     private int id;
+
     @SerializedName("name")
     private String name;
+
     @SerializedName("status")
     private String status;
+
     @SerializedName("image")
     private String image;
     @SerializedName("species")

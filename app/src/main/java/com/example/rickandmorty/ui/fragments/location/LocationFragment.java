@@ -1,5 +1,8 @@
 package com.example.rickandmorty.ui.fragments.location;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +14,16 @@ import androidx.navigation.Navigation;
 import com.example.rickandmorty.R;
 import com.example.rickandmorty.base.BaseFragment;
 import com.example.rickandmorty.databinding.FragmentLocationBinding;
-import com.example.rickandmorty.ui.adapters.locationadapter.LocationAdapter;
-import com.example.rickandmorty.ui.fragments.episods.EpisodsFragmentDirections;
+import com.example.rickandmorty.models.location.Location;
+import com.example.rickandmorty.ui.adapters.LocationAdapter;
 import com.example.rickandmorty.utils.OnItemClickListener;
+
+import java.util.ArrayList;
 
 public class LocationFragment extends BaseFragment<FragmentLocationBinding, LocationViewModel> {
 
     LocationAdapter adapter = new LocationAdapter();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -27,14 +33,6 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
         binding = FragmentLocationBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
-
-    @Override
-    protected void setupRequest() {
-        super.setupRequest();
-        viewModel.fetchLocation().observe(getViewLifecycleOwner(), locationRickAndMoryResponse ->
-                adapter.addlist(locationRickAndMoryResponse.getResults()));
-    }
-
     @Override
     protected void setupViews() {
         super.setupViews();
@@ -46,12 +44,32 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
         super.setupListener();
         setOnClikcListener();
     }
+
+    @Override
+    protected void setupRequest() {
+        super.setupRequest();
+        if (isInternetConnection()) {
+            viewModel.fetchLocation().observe(getViewLifecycleOwner(), characters -> {
+                if (characters != null) {
+                    binding.progressBar.setVisibility(View.INVISIBLE);
+                    adapter.addlist(characters.getResults());
+                }
+            });
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
+            adapter.addlist((ArrayList<Location>) viewModel.getLocations());
+        }
+    }
+
+
     private void setOnClikcListener() {
         adapter.setItemClickList(new OnItemClickListener() {
             @Override
             public void OnClickListener(int id) {
                 Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
-                        .navigate(LocationFragmentDirections.actionLocationFragmentToLocationDetailFragment().setId(id));
+                        .navigate(LocationFragmentDirections
+                                .actionLocationFragmentToLocationDetailFragment()
+                                .setId(id));
             }
 
             @Override
@@ -59,6 +77,12 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
 
             }
         });
+    }
+
+    public boolean isInternetConnection() {
+        ConnectivityManager manager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        return info != null && info.isConnected();
     }
 
     private void setupRecycler() {
