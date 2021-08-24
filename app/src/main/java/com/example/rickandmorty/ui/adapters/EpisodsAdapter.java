@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class EpisodsAdapter extends RecyclerView.Adapter<EpisodsAdapter.ViewHolder> {
     ArrayList<Episods> list = new ArrayList<>();
 
-    EpisodsItemBinding binding;
+
     OnItemClickListener onItemClickListener;
 
     public void setItemClickList(OnItemClickListener onclickListener) {
@@ -29,8 +29,7 @@ public class EpisodsAdapter extends RecyclerView.Adapter<EpisodsAdapter.ViewHold
     @NotNull
     @Override
     public EpisodsAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        binding = EpisodsItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding.getRoot());
+        return new ViewHolder(EpisodsItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -49,8 +48,10 @@ public class EpisodsAdapter extends RecyclerView.Adapter<EpisodsAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(@NonNull @NotNull View itemView) {
-            super(itemView);
+        EpisodsItemBinding binding;
+        public ViewHolder(@NonNull @NotNull EpisodsItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void onBind(Episods item) {

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
     ArrayList<Character> list = new ArrayList<>();
     OnItemClickListener onItemClickListener;
-    CharterItemBinding binding;
 
     public void setItemClickList(OnItemClickListener onclickListener) {
         this.onItemClickListener = onclickListener;
@@ -29,8 +28,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        binding = CharterItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding.getRoot());
+        return new ViewHolder(CharterItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -55,8 +53,11 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(@NonNull @NotNull View itemView) {
-            super(itemView);
+        CharterItemBinding binding ;
+
+        public ViewHolder(@NonNull @NotNull CharterItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void onBind(Character item) {

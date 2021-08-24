@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
     ArrayList<Location> list = new ArrayList<>();
 
-    LocationItemBinding binding;
     OnItemClickListener onItemClickListener;
 
     public void setItemClickList(OnItemClickListener onclickListener) {
@@ -29,8 +28,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        binding = LocationItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding.getRoot());
+        return new ViewHolder(LocationItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -49,8 +47,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(@NonNull @NotNull View itemView) {
-            super(itemView);
+        LocationItemBinding binding;
+
+        public ViewHolder(@NonNull @NotNull LocationItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
 
         }
 
