@@ -11,9 +11,10 @@ import java.util.List;
 
 public class LocationViewModel extends ViewModel {
     private final RickAndMortyRepository repository = new RickAndMortyRepository();
+    public int page = 1;
 
     MutableLiveData<RickAndMoryResponse<Location>> fetchLocation() {
-        return repository.fetchLocation();
+        return repository.fetchLocation(page);
     }
 
     public MutableLiveData<Location> fetchId(int id) {

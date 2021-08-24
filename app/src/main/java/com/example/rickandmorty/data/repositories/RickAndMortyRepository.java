@@ -16,9 +16,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RickAndMortyRepository {
-    public MutableLiveData<RickAndMoryResponse<Character>> fetchCharacters() {
+    public MutableLiveData<RickAndMoryResponse<Character>> fetchCharacters(int page) {
         MutableLiveData<RickAndMoryResponse<Character>> data = new MutableLiveData<>();
-        App.charterApiService.fetchCharacters().enqueue(new Callback<RickAndMoryResponse<Character>>() {
+        App.charterApiService.fetchCharacters(page).enqueue(new Callback<RickAndMoryResponse<Character>>() {
             @Override
             public void onResponse(Call<RickAndMoryResponse<Character>> call, Response<RickAndMoryResponse<Character>> response) {
                 if (response.body() != null) {
@@ -52,9 +52,9 @@ public class RickAndMortyRepository {
         return data;
     }
 
-    public MutableLiveData<RickAndMoryResponse<Location>> fetchLocation() {
+    public MutableLiveData<RickAndMoryResponse<Location>> fetchLocation(int page) {
         MutableLiveData<RickAndMoryResponse<Location>> location = new MutableLiveData<>();
-        App.locationApiService.fetchLocation().enqueue(new Callback<RickAndMoryResponse<Location>>() {
+        App.locationApiService.fetchLocation(page).enqueue(new Callback<RickAndMoryResponse<Location>>() {
             @Override
             public void onResponse(Call<RickAndMoryResponse<Location>> call, Response<RickAndMoryResponse<Location>> response) {
                 if (response.body() != null) {
@@ -87,9 +87,9 @@ public class RickAndMortyRepository {
         return data;
     }
 
-    public MutableLiveData<RickAndMoryResponse<Episods>> fetchEpisods() {
+    public MutableLiveData<RickAndMoryResponse<Episods>> fetchEpisods(int page) {
         MutableLiveData<RickAndMoryResponse<Episods>> data = new MutableLiveData<>();
-        App.episodsApiService.fetchEpisods().enqueue(new Callback<RickAndMoryResponse<Episods>>() {
+        App.episodsApiService.fetchEpisods(page).enqueue(new Callback<RickAndMoryResponse<Episods>>() {
             @Override
             public void onResponse(Call<RickAndMoryResponse<Episods>> call, Response<RickAndMoryResponse<Episods>> response) {
                 if (response.body() != null) {

@@ -2,14 +2,14 @@ package com.example.rickandmorty;
 
 import android.app.Application;
 
-import com.example.rickandmorty.data.apiservice.CharterApiService;
-import com.example.rickandmorty.data.apiservice.EpisodsApiService;
-import com.example.rickandmorty.data.apiservice.LocationApiService;
 import com.example.rickandmorty.data.db.RoomClient;
 import com.example.rickandmorty.data.db.daos.CharacterDao;
 import com.example.rickandmorty.data.db.daos.EpisodsDao;
 import com.example.rickandmorty.data.db.daos.LocationDao;
 import com.example.rickandmorty.data.network.RetrofitClient;
+import com.example.rickandmorty.data.network.apiservice.CharterApiService;
+import com.example.rickandmorty.data.network.apiservice.EpisodsApiService;
+import com.example.rickandmorty.data.network.apiservice.LocationApiService;
 
 public class App extends Application {
     public static CharterApiService charterApiService;

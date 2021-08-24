@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rickandmorty.R;
 import com.example.rickandmorty.base.BaseFragment;
@@ -18,10 +21,14 @@ import com.example.rickandmorty.models.charter.Character;
 import com.example.rickandmorty.ui.adapters.CharacterAdapter;
 import com.example.rickandmorty.utils.OnItemClickListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class CharterFragment extends BaseFragment<FragmentCharterBinding, CharterViewModel> {
     private CharacterAdapter adapter = new CharacterAdapter();
+    private LinearLayoutManager linearLayoutManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +63,10 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
         getCharacter();
     }
 
+    private int visibleItemCount;
+    private int totalItemCount;
+    private int postVisiblesItems;
+
     private void getCharacter() {
         if (isInternetConnection()) {
             viewModel.fetchCharacters().observe(getViewLifecycleOwner(), characters -> {
@@ -68,6 +79,23 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
             binding.progressBar.setVisibility(View.INVISIBLE);
             adapter.addlist((ArrayList<Character>) viewModel.getCharacters());
         }
+        binding.rvCharter.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    postVisiblesItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if ((visibleItemCount + postVisiblesItems) >= totalItemCount) {
+                        viewModel.page++;
+                        viewModel.fetchCharacters().observe(getViewLifecycleOwner(), characterRickAndMoryResponse ->
+                                adapter.addlist(characterRickAndMoryResponse.getResults()));
+                        binding.progressBar.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -98,6 +126,8 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
     }
 
     private void setupRecycler() {
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.rvCharter.setLayoutManager(linearLayoutManager);
         binding.rvCharter.setAdapter(adapter);
     }
 }

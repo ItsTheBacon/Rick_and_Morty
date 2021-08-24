@@ -1,8 +1,8 @@
 package com.example.rickandmorty.data.network;
 
-import com.example.rickandmorty.data.apiservice.CharterApiService;
-import com.example.rickandmorty.data.apiservice.EpisodsApiService;
-import com.example.rickandmorty.data.apiservice.LocationApiService;
+import com.example.rickandmorty.data.network.apiservice.CharterApiService;
+import com.example.rickandmorty.data.network.apiservice.EpisodsApiService;
+import com.example.rickandmorty.data.network.apiservice.LocationApiService;
 
 import java.util.concurrent.TimeUnit;
 

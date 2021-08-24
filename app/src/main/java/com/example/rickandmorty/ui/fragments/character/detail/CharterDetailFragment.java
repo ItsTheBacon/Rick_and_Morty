@@ -14,6 +14,7 @@ import com.example.rickandmorty.ui.fragments.character.CharterViewModel;
 
 public class CharterDetailFragment extends BaseFragment<FragmentCharterDetail2Binding, CharterViewModel> {
     int id;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

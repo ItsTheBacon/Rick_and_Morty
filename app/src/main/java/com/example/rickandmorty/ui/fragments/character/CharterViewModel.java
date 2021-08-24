@@ -11,9 +11,10 @@ import java.util.List;
 
 public class CharterViewModel extends ViewModel {
     private final RickAndMortyRepository repository = new RickAndMortyRepository();
+    public int page = 1;
 
     MutableLiveData<RickAndMoryResponse<Character>> fetchCharacters() {
-        return repository.fetchCharacters();
+        return repository.fetchCharacters(page);
     }
 
     public MutableLiveData<Character> fetchCharacter(int id) {

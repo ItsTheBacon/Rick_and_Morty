@@ -11,9 +11,10 @@ import java.util.List;
 
 public class EpisodsViewModel extends ViewModel {
     private final RickAndMortyRepository repository = new RickAndMortyRepository();
+    public int page = 1;
 
     MutableLiveData<RickAndMoryResponse<Episods>> fetchEpisods() {
-        return repository.fetchEpisods();
+        return repository.fetchEpisods(page);
     }
 
     public MutableLiveData<Episods> fetchId(int id) {

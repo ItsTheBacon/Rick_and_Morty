@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.activity;
+ package com.example.rickandmorty.ui.activity;
 
 import android.os.Bundle;
 

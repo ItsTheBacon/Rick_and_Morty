@@ -21,6 +21,7 @@ public class Character {
 
     @SerializedName("image")
     private String image;
+
     @SerializedName("species")
     private String species;
 

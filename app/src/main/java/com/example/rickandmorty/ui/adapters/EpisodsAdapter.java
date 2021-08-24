@@ -24,6 +24,7 @@ public class EpisodsAdapter extends RecyclerView.Adapter<EpisodsAdapter.ViewHold
     public void setItemClickList(OnItemClickListener onclickListener) {
         this.onItemClickListener = onclickListener;
     }
+
     @NonNull
     @NotNull
     @Override

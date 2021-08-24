@@ -8,21 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rickandmorty.R;
 import com.example.rickandmorty.base.BaseFragment;
 import com.example.rickandmorty.databinding.FragmentLocationBinding;
+import com.example.rickandmorty.models.RickAndMoryResponse;
 import com.example.rickandmorty.models.location.Location;
 import com.example.rickandmorty.ui.adapters.LocationAdapter;
 import com.example.rickandmorty.utils.OnItemClickListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class LocationFragment extends BaseFragment<FragmentLocationBinding, LocationViewModel> {
 
     LocationAdapter adapter = new LocationAdapter();
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +53,10 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
         setOnClikcListener();
     }
 
+    private int visibleItemCount;
+    private int totalItemCount;
+    private int postVisiblesItems;
+
     @Override
     protected void setupRequest() {
         super.setupRequest();
@@ -59,6 +71,27 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
             binding.progressBar.setVisibility(View.INVISIBLE);
             adapter.addlist((ArrayList<Location>) viewModel.getLocations());
         }
+        binding.rvLocation.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    postVisiblesItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if ((visibleItemCount + postVisiblesItems) >= totalItemCount) {
+                        viewModel.page++;
+                        viewModel.fetchLocation().observe(getViewLifecycleOwner(), new Observer<RickAndMoryResponse<Location>>() {
+                            @Override
+                            public void onChanged(RickAndMoryResponse<Location> location) {
+                                adapter.addlist(location.getResults());
+                            }
+                        });
+                        binding.progressBar.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -86,6 +119,8 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
     }
 
     private void setupRecycler() {
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.rvLocation.setLayoutManager(linearLayoutManager);
         binding.rvLocation.setAdapter(adapter);
     }
 }

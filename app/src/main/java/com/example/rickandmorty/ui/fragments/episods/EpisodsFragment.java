@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rickandmorty.R;
 import com.example.rickandmorty.base.BaseFragment;
@@ -18,10 +21,13 @@ import com.example.rickandmorty.models.episods.Episods;
 import com.example.rickandmorty.ui.adapters.EpisodsAdapter;
 import com.example.rickandmorty.utils.OnItemClickListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, EpisodsViewModel> {
     EpisodsAdapter adapter = new EpisodsAdapter();
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +54,10 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
         getEpisods();
     }
 
+    private int visibleItemCount;
+    private int totalItemCount;
+    private int postVisiblesItems;
+
     private void getEpisods() {
         if (isInternetConnection()) {
             viewModel.fetchEpisods().observe(getViewLifecycleOwner(), episods -> {
@@ -60,6 +70,22 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
             binding.progressBar.setVisibility(View.INVISIBLE);
             adapter.addlist((ArrayList<Episods>) viewModel.getEpisods());
         }
+        binding.rvEpisods.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    postVisiblesItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if ((visibleItemCount + postVisiblesItems) >= totalItemCount) {
+                        viewModel.page++;
+                        viewModel.fetchEpisods().observe(getViewLifecycleOwner(), episods -> adapter.addlist(episods.getResults()));
+                        binding.progressBar.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -79,6 +105,8 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
     }
 
     private void setupRecycler() {
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.rvEpisods.setLayoutManager(linearLayoutManager);
         binding.rvEpisods.setAdapter(adapter);
     }
 
