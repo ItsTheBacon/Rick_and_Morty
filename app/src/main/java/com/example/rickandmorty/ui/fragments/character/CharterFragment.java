@@ -54,7 +54,6 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
     protected void setupViews() {
         super.setupViews();
         setupRecycler();
-        setupProgressBar();
     }
 
     @Override
@@ -97,11 +96,6 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
             }
         });
     }
-
-
-    private void setupProgressBar() {
-    }
-
     public boolean isInternetConnection() {
         ConnectivityManager manager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
