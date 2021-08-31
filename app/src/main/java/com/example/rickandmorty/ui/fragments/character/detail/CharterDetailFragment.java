@@ -12,6 +12,9 @@ import com.example.rickandmorty.base.BaseFragment;
 import com.example.rickandmorty.databinding.FragmentCharterDetail2Binding;
 import com.example.rickandmorty.ui.fragments.character.CharterViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CharterDetailFragment extends BaseFragment<FragmentCharterDetail2Binding, CharterViewModel> {
     int id;
 

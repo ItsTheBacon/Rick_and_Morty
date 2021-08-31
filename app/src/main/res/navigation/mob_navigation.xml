@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_charterFragment_to_charterDetailFragment"
             app:destination="@id/charterDetailFragment" />
+        <action
+            android:id="@+id/action_charterFragment_to_alertDialogFragment"
+            app:destination="@id/alertDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/episodsFragment"
@@ -63,5 +66,15 @@
             app:argType="integer"
             android:defaultValue="0" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/alertDialogFragment"
+        android:name="com.example.rickandmorty.ui.dialogs.AlertDialogFragment"
+        android:label="fragment_alert_dialog"
+        tools:layout="@layout/fragment_alert_dialog" >
+        <argument
+            android:name="image"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

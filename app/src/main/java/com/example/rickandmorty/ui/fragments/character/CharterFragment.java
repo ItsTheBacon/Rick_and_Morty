@@ -25,9 +25,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CharterFragment extends BaseFragment<FragmentCharterBinding, CharterViewModel> {
     private CharacterAdapter adapter = new CharacterAdapter();
     private LinearLayoutManager linearLayoutManager;
+    private int visibleItemCount, totalItemCount, postVisibleItems;
+
 
 
     @Override
@@ -62,10 +67,6 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
         getCharacter();
     }
 
-    private int visibleItemCount;
-    private int totalItemCount;
-    private int postVisiblesItems;
-
     private void getCharacter() {
         if (isInternetConnection()) {
             viewModel.fetchCharacters().observe(getViewLifecycleOwner(), characters -> {
@@ -85,8 +86,8 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
                 if (dy > 0) {
                     visibleItemCount = linearLayoutManager.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
-                    postVisiblesItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    if ((visibleItemCount + postVisiblesItems) >= totalItemCount) {
+                    postVisibleItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if ((visibleItemCount + postVisibleItems) >= totalItemCount) {
                         viewModel.page++;
                         viewModel.fetchCharacters().observe(getViewLifecycleOwner(), characterRickAndMoryResponse ->
                                 adapter.addlist(characterRickAndMoryResponse.getResults()));
@@ -96,6 +97,7 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
             }
         });
     }
+
     public boolean isInternetConnection() {
         ConnectivityManager manager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
@@ -114,7 +116,10 @@ public class CharterFragment extends BaseFragment<FragmentCharterBinding, Charte
 
             @Override
             public void OnLongListener(int id) {
-
+                Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+                        .navigate(CharterFragmentDirections
+                        .actionCharterFragmentToAlertDialogFragment()
+                        .setImage(id));
             }
         });
     }

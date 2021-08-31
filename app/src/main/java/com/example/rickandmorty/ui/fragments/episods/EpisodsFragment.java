@@ -25,9 +25,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, EpisodsViewModel> {
+    private int visibleItemCount;
+    private int postVisibleItems;
+    private int totalItemCount;
     EpisodsAdapter adapter = new EpisodsAdapter();
     private LinearLayoutManager linearLayoutManager;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,27 +44,22 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
         binding = FragmentEpisodsBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
+
     @Override
     protected void setupViews() {
         super.setupViews();
         setupRecycler();
     }
-
     @Override
     protected void setupListener() {
         super.setupListener();
         setOnClikcListener();
     }
-
     @Override
     protected void setupRequest() {
         super.setupRequest();
         getEpisods();
     }
-
-    private int visibleItemCount;
-    private int totalItemCount;
-    private int postVisiblesItems;
 
     private void getEpisods() {
         if (isInternetConnection()) {
@@ -77,8 +80,8 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
                 if (dy > 0) {
                     visibleItemCount = linearLayoutManager.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
-                    postVisiblesItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    if ((visibleItemCount + postVisiblesItems) >= totalItemCount) {
+                    postVisibleItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if ((visibleItemCount + postVisibleItems) >= totalItemCount) {
                         viewModel.page++;
                         viewModel.fetchEpisods().observe(getViewLifecycleOwner(), episods -> adapter.addlist(episods.getResults()));
                         binding.progressBar.setVisibility(View.INVISIBLE);

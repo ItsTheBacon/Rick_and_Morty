@@ -11,24 +11,22 @@ import com.example.rickandmorty.data.network.apiservice.CharterApiService;
 import com.example.rickandmorty.data.network.apiservice.EpisodsApiService;
 import com.example.rickandmorty.data.network.apiservice.LocationApiService;
 
+import dagger.hilt.android.HiltAndroidApp;
+
+@HiltAndroidApp
 public class App extends Application {
-    public static CharterApiService charterApiService;
-    public static LocationApiService locationApiService;
-    public static EpisodsApiService episodsApiService;
     public static CharacterDao characterDao;
     public static LocationDao locationDao;
     public static EpisodsDao episodsDao;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
-        charterApiService = new RetrofitClient().provideChacterApiService();
-        locationApiService = new RetrofitClient().provideLocationApiService();
-        episodsApiService = new RetrofitClient().provideEpisodsApiService();
         RoomClient roomClient = new RoomClient();
         characterDao = roomClient.provideCharacterDao(roomClient.provideDatabase(this));
         locationDao = roomClient.provideLocationDao(roomClient.provideDatabase(this));
-        episodsDao = roomClient.provideEpisodsDao(roomClient.provideDatabase(this));
+        episodsDao = roomClient.provideEpisodesDao(roomClient.provideDatabase(this));
 
     }
 }

@@ -12,6 +12,9 @@ import com.example.rickandmorty.databinding.FragmentLocationDetailBinding;
 import com.example.rickandmorty.ui.fragments.character.detail.CharterDetailFragmentArgs;
 import com.example.rickandmorty.ui.fragments.location.LocationViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class LocationDetailFragment extends BaseFragment<FragmentLocationDetailBinding, LocationViewModel> {
 
     int id;

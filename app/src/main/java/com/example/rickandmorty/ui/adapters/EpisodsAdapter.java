@@ -53,7 +53,6 @@ public class EpisodsAdapter extends RecyclerView.Adapter<EpisodsAdapter.ViewHold
             super(binding.getRoot());
             this.binding = binding;
         }
-
         public void onBind(Episods item) {
             binding.itemName.setText(item.getName());
             binding.itemAirDate.setText(item.getAir_date());

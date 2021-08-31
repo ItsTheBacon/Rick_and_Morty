@@ -12,6 +12,9 @@ import com.example.rickandmorty.databinding.FragmentEpisodsDetailBinding;
 import com.example.rickandmorty.ui.fragments.character.detail.CharterDetailFragmentArgs;
 import com.example.rickandmorty.ui.fragments.episods.EpisodsViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class EpisodsDetailFragment extends BaseFragment<FragmentEpisodsDetailBinding, EpisodsViewModel> {
     int id;
 

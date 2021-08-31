@@ -1,7 +1,6 @@
 package com.example.rickandmorty.ui.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -42,18 +41,13 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     }
 
     public void addlist(ArrayList<Character> list) {
-        this.list = list;
+        this.list.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void setlistdb(ArrayList<Character> listdb) {
-        this.list.clear();
-        this.list = listdb;
-        notifyDataSetChanged();
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CharterItemBinding binding ;
+        CharterItemBinding binding;
 
         public ViewHolder(@NonNull @NotNull CharterItemBinding binding) {
             super(binding.getRoot());

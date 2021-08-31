@@ -27,7 +27,7 @@ public class RoomClient {
         return database.locationDao();
     }
 
-    public EpisodsDao provideEpisodsDao(AppDatabase database) {
+    public EpisodsDao provideEpisodesDao(AppDatabase database) {
         return database.episodsDao();
     }
 

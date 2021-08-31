@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 @Entity
 public class Character {
 
@@ -76,4 +78,21 @@ public class Character {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return id == character.id &&
+                Objects.equals(name, character.name) &&
+                Objects.equals(status, character.status) &&
+                Objects.equals(image, character.image) &&
+                Objects.equals(species, character.species) &&
+                Objects.equals(gender, character.gender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, status, image, species, gender);
+    }
 }

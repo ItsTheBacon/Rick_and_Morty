@@ -9,9 +9,19 @@ import com.example.rickandmorty.models.location.Location;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class LocationViewModel extends ViewModel {
-    private final RickAndMortyRepository repository = new RickAndMortyRepository();
+    private final RickAndMortyRepository repository;
     public int page = 1;
+
+    @Inject
+    public LocationViewModel(RickAndMortyRepository repository) {
+        this.repository = repository;
+    }
 
     MutableLiveData<RickAndMoryResponse<Location>> fetchLocation() {
         return repository.fetchLocation(page);

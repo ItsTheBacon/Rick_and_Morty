@@ -9,6 +9,9 @@ buildscript {
         //navigation components
         def nav_version = "2.3.5"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+        //hilt plugin
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+
     }
 }
 

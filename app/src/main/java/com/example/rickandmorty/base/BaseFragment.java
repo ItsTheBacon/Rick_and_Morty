@@ -16,18 +16,23 @@ public  abstract class BaseFragment<Binding ,ViewModel> extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initalize();
         setupViews();
+        setupListener();
         setupRequest();
         setUpObserves();
-        setupListener();
     }
 
-    protected  void setupListener(){}
+    protected void initalize() {
+    }
 
-    protected  void setUpObserves(){}
+    protected void setupViews() {
+    }
 
-    protected  void setupRequest(){}
+    protected void setupListener() {
+    }
 
-    protected  void setupViews(){}
+    protected void setupRequest() {
+    }
 
-    protected  void initalize(){}
+    protected void setUpObserves() {
+    }
 }

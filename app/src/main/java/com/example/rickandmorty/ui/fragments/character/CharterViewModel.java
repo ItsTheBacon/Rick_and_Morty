@@ -9,9 +9,21 @@ import com.example.rickandmorty.models.charter.Character;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class CharterViewModel extends ViewModel {
-    private final RickAndMortyRepository repository = new RickAndMortyRepository();
+    private final RickAndMortyRepository repository;
+
     public int page = 1;
+
+    @Inject
+    public CharterViewModel(RickAndMortyRepository rickAndMortyRepository){
+        this.repository = rickAndMortyRepository;
+    }
+
 
     MutableLiveData<RickAndMoryResponse<Character>> fetchCharacters() {
         return repository.fetchCharacters(page);

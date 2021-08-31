@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +28,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class LocationFragment extends BaseFragment<FragmentLocationBinding, LocationViewModel> {
 
     LocationAdapter adapter = new LocationAdapter();
     private LinearLayoutManager linearLayoutManager;
+    private int visibleItemCount;
+    private int totalItemCount;
+    private int postVisibleItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +48,7 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
         binding = FragmentLocationBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
+
     @Override
     protected void setupViews() {
         super.setupViews();
@@ -52,10 +60,6 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
         super.setupListener();
         setOnClikcListener();
     }
-
-    private int visibleItemCount;
-    private int totalItemCount;
-    private int postVisiblesItems;
 
     @Override
     protected void setupRequest() {
@@ -78,8 +82,8 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
                 if (dy > 0) {
                     visibleItemCount = linearLayoutManager.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
-                    postVisiblesItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    if ((visibleItemCount + postVisiblesItems) >= totalItemCount) {
+                    postVisibleItems = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if ((visibleItemCount + postVisibleItems) >= totalItemCount) {
                         viewModel.page++;
                         viewModel.fetchLocation().observe(getViewLifecycleOwner(), new Observer<RickAndMoryResponse<Location>>() {
                             @Override
@@ -100,7 +104,7 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
             @Override
             public void OnClickListener(int id) {
                 Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
-                        .navigate(LocationFragmentDirections
+                        .navigate((NavDirections) LocationFragmentDirections
                                 .actionLocationFragmentToLocationDetailFragment()
                                 .setId(id));
             }

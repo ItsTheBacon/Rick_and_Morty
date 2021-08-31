@@ -1,4 +1,4 @@
- package com.example.rickandmorty.ui.activity;
+package com.example.rickandmorty.ui.activity;
 
 import android.os.Bundle;
 
@@ -10,6 +10,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.rickandmorty.R;
 import com.example.rickandmorty.databinding.ActivityMainBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
@@ -20,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setUpNavigation();
     }
-    public void setUpNavigation(){
+
+    public void setUpNavigation() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragmentContainerView);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
