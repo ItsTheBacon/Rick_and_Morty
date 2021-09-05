@@ -3,6 +3,9 @@ package com.example.rickandmorty.data.repositories;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.rickandmorty.App;
+import com.example.rickandmorty.data.db.daos.CharacterDao;
+import com.example.rickandmorty.data.db.daos.EpisodsDao;
+import com.example.rickandmorty.data.db.daos.LocationDao;
 import com.example.rickandmorty.data.network.apiservice.CharterApiService;
 import com.example.rickandmorty.data.network.apiservice.EpisodsApiService;
 import com.example.rickandmorty.data.network.apiservice.LocationApiService;
@@ -22,16 +25,28 @@ import retrofit2.Response;
 
 public class RickAndMortyRepository {
     CharterApiService charterApiService;
-
     EpisodsApiService episodsApiService;
     LocationApiService locationApiService;
+    CharacterDao characterDao;
+    LocationDao locationDao;
+    EpisodsDao episodsDao;
 
 
     @Inject
-    public RickAndMortyRepository(CharterApiService charterApiService , EpisodsApiService episodsApiService, LocationApiService locationApiService) {
+    public RickAndMortyRepository(
+            CharterApiService charterApiService ,
+            EpisodsApiService episodsApiService,
+            LocationApiService locationApiService,
+            CharacterDao characterDao,
+            LocationDao locationDao,
+            EpisodsDao episodsDao
+    ) {
         this.charterApiService = charterApiService;
         this.episodsApiService = episodsApiService;
         this.locationApiService = locationApiService;
+        this.characterDao = characterDao;
+        this.locationDao = locationDao;
+        this.episodsDao = episodsDao;
     }
 
     public MutableLiveData<RickAndMoryResponse<Character>> fetchCharacters(int page) {
@@ -40,7 +55,7 @@ public class RickAndMortyRepository {
             @Override
             public void onResponse(Call<RickAndMoryResponse<Character>> call, Response<RickAndMoryResponse<Character>> response) {
                 if (response.body() != null) {
-                    App.characterDao.insertAll(response.body().getResults());
+                    characterDao.insertAll(response.body().getResults());
                     data.postValue(response.body());
                 }
 
@@ -76,7 +91,7 @@ public class RickAndMortyRepository {
             @Override
             public void onResponse(Call<RickAndMoryResponse<Location>> call, Response<RickAndMoryResponse<Location>> response) {
                 if (response.body() != null) {
-                    App.locationDao.insertAll(response.body().getResults());
+                    locationDao.insertAll(response.body().getResults());
                     location.postValue(response.body());
                 }
             }
@@ -111,7 +126,7 @@ public class RickAndMortyRepository {
             @Override
             public void onResponse(Call<RickAndMoryResponse<Episods>> call, Response<RickAndMoryResponse<Episods>> response) {
                 if (response.body() != null) {
-                    App.episodsDao.insertAll(response.body().getResults());
+                    episodsDao.insertAll(response.body().getResults());
                     data.postValue(response.body());
                 }
             }
@@ -142,15 +157,16 @@ public class RickAndMortyRepository {
     }
 
     public List<Character> getCharacters() {
-        return App.characterDao.getAll();
+        return characterDao.getAll();
 
     }
 
     public List<Episods> getEpisods() {
-        return App.episodsDao.getAll();
+        return episodsDao.getAll();
     }
 
     public ArrayList<Location> getLocation() {
-        return (ArrayList<Location>) App.locationDao.getAll();
+        return (ArrayList<Location>) locationDao.getAll();
     }
+
 }

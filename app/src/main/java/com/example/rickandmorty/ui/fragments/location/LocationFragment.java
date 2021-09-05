@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
@@ -56,14 +57,14 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
     }
 
     @Override
-    protected void setupListener() {
-        super.setupListener();
+    protected void setupListeners() {
+        super.setupListeners();
         setOnClikcListener();
     }
 
     @Override
-    protected void setupRequest() {
-        super.setupRequest();
+    protected void setupRequests() {
+        super.setupRequests();
         if (isInternetConnection()) {
             viewModel.fetchLocation().observe(getViewLifecycleOwner(), characters -> {
                 if (characters != null) {
@@ -103,10 +104,14 @@ public class LocationFragment extends BaseFragment<FragmentLocationBinding, Loca
         adapter.setItemClickList(new OnItemClickListener() {
             @Override
             public void OnClickListener(int id) {
-                Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
-                        .navigate((NavDirections) LocationFragmentDirections
-                                .actionLocationFragmentToLocationDetailFragment()
-                                .setId(id));
+                if (isInternetConnection()) {
+                    Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+                            .navigate((NavDirections) LocationFragmentDirections
+                                    .actionLocationFragmentToLocationDetailFragment()
+                                    .setId(id));
+                }else{
+                    Toast.makeText(requireContext(), "Not Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

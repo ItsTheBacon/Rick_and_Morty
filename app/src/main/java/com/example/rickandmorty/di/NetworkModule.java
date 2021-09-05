@@ -1,4 +1,4 @@
-package com.example.rickandmorty.module;
+package com.example.rickandmorty.di;
 
 import com.example.rickandmorty.data.network.RetrofitClient;
 import com.example.rickandmorty.data.network.apiservice.CharterApiService;
@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public class ApiServiceModule {
+public class NetworkModule {
 
     @Singleton
     RetrofitClient retrofitClient = new RetrofitClient();

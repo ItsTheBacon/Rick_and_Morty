@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -51,13 +52,13 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
         setupRecycler();
     }
     @Override
-    protected void setupListener() {
-        super.setupListener();
+    protected void setupListeners() {
+        super.setupListeners();
         setOnClikcListener();
     }
     @Override
-    protected void setupRequest() {
-        super.setupRequest();
+    protected void setupRequests() {
+        super.setupRequests();
         getEpisods();
     }
 
@@ -96,8 +97,12 @@ public class EpisodsFragment extends BaseFragment<FragmentEpisodsBinding, Episod
         adapter.setItemClickList(new OnItemClickListener() {
             @Override
             public void OnClickListener(int id) {
-                Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
-                        .navigate(EpisodsFragmentDirections.actionEpisodsFragmentToEpisodsDetailFragment().setId(id));
+                if (isInternetConnection()) {
+                    Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+                            .navigate(EpisodsFragmentDirections.actionEpisodsFragmentToEpisodsDetailFragment().setId(id));
+                }else{
+                    Toast.makeText(requireContext(), "Not Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

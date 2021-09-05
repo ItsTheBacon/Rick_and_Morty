@@ -11,7 +11,7 @@ import com.example.rickandmorty.models.episods.Episods;
 import com.example.rickandmorty.models.location.Location;
 
 @Database(entities = {Character.class, Location.class, Episods.class}, version = 2)
-abstract class AppDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
     public abstract CharacterDao characterDao();
 
     public abstract LocationDao locationDao();

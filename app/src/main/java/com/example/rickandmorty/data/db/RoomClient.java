@@ -8,9 +8,14 @@ import com.example.rickandmorty.data.db.daos.CharacterDao;
 import com.example.rickandmorty.data.db.daos.EpisodsDao;
 import com.example.rickandmorty.data.db.daos.LocationDao;
 
+import javax.inject.Singleton;
+
+import dagger.Provides;
+import dagger.hilt.android.qualifiers.ApplicationContext;
+
 public class RoomClient {
 
-    public AppDatabase provideDatabase(Context context) {
+    public AppDatabase provideDatabase( Context context) {
         return Room
                 .databaseBuilder(context, AppDatabase.class, "rick-and_morty-db")
                 .allowMainThreadQueries()
@@ -18,6 +23,7 @@ public class RoomClient {
                 .build();
 
     }
+
 
     public CharacterDao provideCharacterDao(AppDatabase database) {
         return database.characterDao();

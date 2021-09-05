@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
 @Entity
-public class Character {
+public class  Character {
 
     @PrimaryKey(autoGenerate = true)
 

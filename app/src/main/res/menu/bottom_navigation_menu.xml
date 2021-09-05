@@ -2,18 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="charter"
+        android:title="@string/charter"
         android:orderInCategory="1"
+        
+        android:icon="@drawable/ic_icons8_rick_sanchez"
         android:id="@+id/charterFragment"
         />
     <item
-        android:title="location"
+        android:title="@string/location"
         android:orderInCategory="2"
+        android:icon="@drawable/ic_icons8_morty_smith"
         android:id="@+id/locationFragment"
+
         />
     <item
-        android:title="episods"
+        android:title="@string/episodes"
+        android:icon="@drawable/ic_icons8_jerry_smith"
         android:orderInCategory="3"
         android:id="@+id/episodsFragment"
         />
+    <item
+        android:title="@string/setting"
+        android:orderInCategory="4"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:id="@+id/settingsFragment"
+        />
+
 </menu>
